@@ -1,10 +1,9 @@
-import { Map } from 'lucide-react';
+import { Map, Pencil } from 'lucide-react';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-import AddressFormModal from './AddressFormModal';
-import MapModal from './MapModal';
+import AddressModal from './AddressFormModal';
 
 export default function ShippingForm({
     shippingType,
@@ -16,8 +15,8 @@ export default function ShippingForm({
     address,
     setAddress
 }) {
+
     const [showAddressModal, setShowAddressModal] = useState(false);
-    const [showMapModal, setShowMapModal] = useState(false);
 
     const [hours] = useState(
         Array.from({ length: 25 }, (_, i) => {
@@ -28,29 +27,20 @@ export default function ShippingForm({
 
     return (
         <>
-            {/* MODALES */}
-            <AddressFormModal
+            {/* MODAL DE DIRECCIÓN */}
+            <AddressModal
                 open={showAddressModal}
                 onClose={() => setShowAddressModal(false)}
-                onNext={() => {
-                    setShowAddressModal(false);
-                    setShowMapModal(true);
-                }}
                 setAddress={setAddress}
             />
 
-            <MapModal
-                open={showMapModal}
-                onClose={() => setShowMapModal(false)}
-                setAddress={setAddress}
-            />
-
-            {/* FORMULARIO */}
             <div className="border border-gray-700 p-4 rounded mb-4">
                 <h3 className="font-semibold mb-4 text-white">Envío *</h3>
 
-                {/* Opciones de envío */}
+                {/* Radios */}
                 <div className="flex flex-col gap-2">
+
+                    {/* Recojo local */}
                     <label
                         className={`border p-3 rounded cursor-pointer ${
                             shippingType === 'local'
@@ -64,14 +54,15 @@ export default function ShippingForm({
                             value="local"
                             className="mr-2"
                             checked={shippingType === 'local'}
-                            onChange={(e) => setShippingType(e.target.value)}
+                            onChange={(e) => {
+                                setShippingType("local");
+                                setAddress("Recojo en el local"); // ✔️ SE SETEA AUTO
+                            }}
                         />
                         <span className="font-semibold text-white">Recojo en el local</span>
-                        <p className="text-gray-400 text-sm mt-1">
-                            Recoja su pedido de nuestra oficina, la ubicación será enviada a su Email
-                        </p>
                     </label>
 
+                    {/* Envío a domicilio */}
                     <label
                         className={`border p-3 rounded cursor-pointer ${
                             shippingType === 'envio'
@@ -85,23 +76,41 @@ export default function ShippingForm({
                             value="envio"
                             className="mr-2"
                             checked={shippingType === 'envio'}
-                            onChange={(e) => setShippingType(e.target.value)}
+                            onChange={(e) => {
+                                setShippingType("envio");
+                                setAddress(""); // ✔️ OBLIGAR A LLENAR
+                            }}
                         />
                         <span className="font-semibold text-white">Pedido a domicilio</span>
-                        <p className="text-gray-400 text-sm mt-1">
-                            Ubicaciones más alejadas tienen un costo extra a confirmar.
-                        </p>
                     </label>
                 </div>
 
                 {/* Dirección */}
                 {shippingType === 'envio' && (
-                    <button
-                        className="flex items-center gap-2 mt-4 w-full justify-center border border-gray-600 rounded p-2 text-white hover:bg-gray-700"
-                        onClick={() => setShowAddressModal(true)}
-                    >
-                        <Map size={16} /> Introduzca la dirección
-                    </button>
+                    <div className="mt-4">
+
+                        {address ? (
+                            <div className="border border-gray-700 p-3 rounded bg-gray-900">
+                                <p className="text-gray-300 text-sm mb-2">
+                                    <strong>Dirección:</strong> {address}
+                                </p>
+
+                                <button
+                                    className="flex items-center gap-2 w-full justify-center border border-gray-600 rounded p-2 text-white hover:bg-gray-700"
+                                    onClick={() => setShowAddressModal(true)}
+                                >
+                                    <Pencil size={16} /> Editar dirección
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                className="flex items-center gap-2 w-full justify-center border border-gray-600 rounded p-2 text-white hover:bg-gray-700"
+                                onClick={() => setShowAddressModal(true)}
+                            >
+                                <Map size={16} /> Introduzca la dirección
+                            </button>
+                        )}
+                    </div>
                 )}
 
                 {/* Fecha y hora */}
@@ -118,9 +127,7 @@ export default function ShippingForm({
 
                     <label className="text-gray-300 mt-2">Seleccione una hora</label>
                     <select
-                        className={`w-full bg-black border border-gray-600 rounded p-2 text-white ${
-                            !date ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
+                        className="w-full bg-black border border-gray-600 rounded p-2 text-white"
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
                         disabled={!date}

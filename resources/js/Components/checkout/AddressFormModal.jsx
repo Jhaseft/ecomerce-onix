@@ -1,66 +1,84 @@
+'use client';
 import { X } from "lucide-react";
+import { useState } from "react";
 
-export default function AddressFormModal({ open, onClose, onNext, setAddress }) {
+export default function AddressModal({ open, onClose, setAddress }) {
     if (!open) return null;
 
+    const [form, setForm] = useState({
+        street: "",
+        city: "",
+        zone: "",
+        reference: ""
+    });
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSave = () => {
+        const parts = [
+            form.street?.trim(),
+            form.city?.trim(),
+            form.zone?.trim(),
+        ].filter(Boolean);
+
+        let fullAddress = parts.join(", ");
+
+        if (form.reference.trim() !== "") {
+            fullAddress += ` (Ref: ${form.reference.trim()})`;
+        }
+
+        setAddress(fullAddress);
+        onClose();
+    };
+
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-            <div className="bg-gray-900 p-8 rounded-xl w-[520px] border border-gray-700 relative shadow-2xl">
-
-                {/* Botón X */}
-                <button
-                    className="absolute top-4 right-4 text-gray-400 hover:text-white p-1"
-                    onClick={onClose}
-                >
-                    <X size={22} />
-                </button>
-
-                <h2 className="text-white font-semibold text-xl mb-6 text-center">
-                    Datos de dirección
-                </h2>
-
-                <div className="flex flex-col gap-5">
-                    <input
-                        className="w-full bg-black border border-gray-600 p-3 rounded-lg text-white focus:outline-none focus:border-blue-500 transition"
-                        placeholder="Dirección de la calle"
-                        onChange={(e) =>
-                            setAddress((a) => ({ ...a, street: e.target.value }))
-                        }
-                    />
-
-                    <input
-                        className="w-full bg-black border border-gray-600 p-3 rounded-lg text-white focus:outline-none focus:border-blue-500 transition"
-                        placeholder="Apartamento o número de casa"
-                        onChange={(e) =>
-                            setAddress((a) => ({ ...a, number: e.target.value }))
-                        }
-                    />
-
-                    <input
-                        className="w-full bg-black border border-gray-600 p-3 rounded-lg text-white focus:outline-none focus:border-blue-500 transition"
-                        placeholder="Ciudad"
-                        onChange={(e) =>
-                            setAddress((a) => ({ ...a, city: e.target.value }))
-                        }
-                    />
-
-                    <input
-                        className="w-full bg-black border border-gray-600 p-3 rounded-lg text-white focus:outline-none focus:border-blue-500 transition"
-                        placeholder="País"
-                        onChange={(e) =>
-                            setAddress((a) => ({ ...a, country: e.target.value }))
-                        }
-                    />
-                </div>
-
-                <div className="flex justify-end mt-8">
-                    <button
-                        className="bg-blue-600 px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-700 transition"
-                        onClick={onNext}
-                    >
-                        Siguiente
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+            <div className="w-96 p-5 rounded-xl shadow-2xl"
+                style={{
+                    background: "#0d0d16",
+                    border: "1px solid #d4af37"
+                }}>
+                 
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-lg font-semibold text-white">Ingresar dirección</h2>
+                    <button onClick={onClose}>
+                        <X className="w-6 h-6 text-gray-300 hover:text-white" />
                     </button>
                 </div>
+
+                <div className="space-y-3">
+                    {["street","city","zone","reference"].map((field) => (
+                        <input
+                            key={field}
+                            name={field}
+                            placeholder={
+                                field === "street" ? "Calle y número" :
+                                field === "city" ? "Ciudad" :
+                                field === "zone" ? "Zona / Barrio" : "Referencia"
+                            }
+                            className="w-full p-2 rounded bg-[#141426] border border-gray-600 
+                                       text-white placeholder-gray-300 
+                                       focus:outline-none focus:border-[#d4af37]"
+                            onChange={handleChange}
+                        />
+                    ))}
+                </div>
+
+                <button
+                    onClick={handleSave}
+                    className="mt-5 w-full py-2 rounded text-black font-semibold"
+                    style={{
+                        backgroundColor: "#d4af37",
+                        boxShadow: "0 0 12px rgba(212,175,55,0.45)"
+                    }}
+                >
+                    Guardar dirección
+                </button>
             </div>
         </div>
     );

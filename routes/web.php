@@ -13,6 +13,10 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
+        'flash' => [
+            'success' => session('success'),
+            'error' => session('error'),
+        ],
     ]);
 })->name('welcome');
 
@@ -27,10 +31,18 @@ Route::prefix('carrito')->group(function () {
     Route::delete('/clear', [CartController::class, 'clear'])->name('carrito.clear');
 });
 
-Route::get('/checkout', function () {
-    return Inertia::render('checkout');
-})->middleware(['auth', 'verified']);
- 
+// Rutas protegidas por autenticación
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Checkout
+    Route::get('/checkout', function () {
+        return Inertia::render('checkout');
+    })->name('checkout');
+
+    // Endpoint para crear pedido
+    Route::post('/orders/store', [PedidosController::class, 'store'])->name('orders.store');
+});
+
+
 
 Route::get('/auth/google/redirect', [SocialController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [SocialController::class, 'handleGoogleCallback'])->name('google.callback');
