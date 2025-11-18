@@ -53,6 +53,7 @@ export default function CheckoutPageContent({ auth }) {
                 setProcessing(false); // detiene spinner
             },
             onSuccess: () => {
+                console.log("se creo el pedido correctamente");
                 setProcessing(false);
                 
             }
