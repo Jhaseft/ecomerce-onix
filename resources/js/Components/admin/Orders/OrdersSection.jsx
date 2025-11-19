@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import ViewOrderModal from "./ViewOrderModal";
 import EditOrderModal from "./EditOrderModal";
+import GlobalSpinner from "./GlobalSpinner";
 
 export default function OrdersSection() {
   const [orders, setOrders] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [globalLoading, setGlobalLoading] = useState(false);
+
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [editOrder, setEditOrder] = useState(null);
 
-  // PAGINACIÓN BACKEND
   const [page, setPage] = useState(1);
-
-  // BUSQUEDA
   const [search, setSearch] = useState("");
 
   const fetchOrders = async () => {
@@ -30,38 +30,41 @@ export default function OrdersSection() {
     }
   };
 
-  // 🔥 Ejecutar al cambiar página o búsqueda
   useEffect(() => {
     fetchOrders();
   }, [page, search]);
 
+  // ❌ Eliminar con spinner global
   const deleteOrder = async (id) => {
-  if (!confirm("¿Seguro quieres eliminar esta orden?")) return;
+    if (!confirm("¿Seguro quieres eliminar esta orden?")) return;
 
-  try {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    try {
+      setGlobalLoading(true);
 
-    const res = await fetch(`/admin/orders/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken, // ✅ Token CSRF
-      },
-    });
+      const csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
 
-    if (!res.ok) {
-      const errorData = await res.json();
-      console.error("Error al eliminar:", errorData);
-      return;
+      const res = await fetch(`/admin/orders/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken,
+        },
+      });
+
+      if (!res.ok) {
+        console.error("Error al eliminar");
+        return;
+      }
+
+      fetchOrders();
+    } catch (err) {
+      console.error("Error al eliminar:", err);
+    } finally {
+      setGlobalLoading(false);
     }
-
-    // Refrescar órdenes
-    fetchOrders();
-  } catch (err) {
-    console.error("Error al eliminar orden:", err);
-  }
-};
-
+  };
 
   const openViewModal = async (id) => {
     const res = await fetch(`/admin/orders/${id}`);
@@ -71,40 +74,49 @@ export default function OrdersSection() {
   const openEditModal = async (id) => {
     const res = await fetch(`/admin/orders/${id}`);
     setEditOrder(await res.json());
-  }; 
+  };
 
-const saveEdit = async () => {
-  try {
-    // Obtener el token CSRF del meta tag
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  // ✅ Guardar edición con spinner global
+  const saveEdit = async () => {
+    try {
+      setGlobalLoading(true);
 
-    const res = await fetch(`/admin/orders/${editOrder.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken, // ✅ Token CSRF
-      },
-      body: JSON.stringify(editOrder),
-    });
+      const csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
 
-    if (!res.ok) {
-      const errorData = await res.json();
-      console.error("Error al guardar:", errorData);
-      return;
+      const res = await fetch(`/admin/orders/${editOrder.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify(editOrder),
+      });
+
+      if (!res.ok) {
+        console.error("Error al guardar");
+        return;
+      }
+
+      setEditOrder(null);
+      fetchOrders();
+    } catch (err) {
+      console.error("Error guardando edición:", err);
+    } finally {
+      setGlobalLoading(false);
     }
-
-    // Cerrar modal y refrescar órdenes
-    setEditOrder(null);
-    fetchOrders();
-  } catch (err) {
-    console.error("Error guardando edición:", err);
-  }
-};
-
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-4 max-w-7xl w-full">
-      <h2 className="text-2xl text-center font-semibold mb-4 text-gray-800">Órdenes</h2>
+
+      {/* SPINNER GLOBAL */}
+      <GlobalSpinner visible={globalLoading} />
+
+      <h2 className="text-2xl text-center font-semibold mb-4 text-gray-800">
+        Órdenes
+      </h2>
 
       {/* BUSQUEDA */}
       <div className="mb-4">
@@ -113,7 +125,7 @@ const saveEdit = async () => {
           placeholder="Buscar por cliente o ID..."
           value={search}
           onChange={(e) => {
-            setPage(1);     // reset a página 1 al buscar
+            setPage(1);
             setSearch(e.target.value);
           }}
         />
@@ -196,7 +208,7 @@ const saveEdit = async () => {
         </table>
       </div>
 
-      {/* PAGINACIÓN */}
+      {/* Paginación */}
       {orders && (
         <div className="flex justify-center mt-4 gap-3">
           <button
@@ -219,9 +231,12 @@ const saveEdit = async () => {
         </div>
       )}
 
-      {/* MODALES */}
+      {/* Modales */}
       {selectedOrder && (
-        <ViewOrderModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />
+        <ViewOrderModal
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+        />
       )}
 
       {editOrder && (
