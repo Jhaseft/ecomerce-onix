@@ -55,22 +55,22 @@ export default function ProductCard({
           {product.description}
         </p>
 
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center justify-between mt-2 ">
 
           {/* Stock */}
           <span
-            className={`px-4 py-2 text-base font-bold rounded-full border font-poppins
-              ${isOutOfStock
+            className={`px-2 py-2 text-xs sm:text-base font-bold rounded-full border font-poppins
+    ${isOutOfStock
                 ? "bg-red-600 text-white border-red-700"
                 : "bg-[#D4AF37]/20 text-[#D4AF37] border-[#D4AF37]"
               }
-            `}
+  `}
           >
             {isOutOfStock ? "Sin stock" : `Stock: ${product.stock}`}
           </span>
 
           {/* Precio en Playfair */}
-          <p className="text-4xl font-black text-[#D4AF37] drop-shadow-lg font-playfair">
+          <p className="text-3xl font-black text-[#D4AF37] drop-shadow-lg font-playfair">
             Bs {Number(product.price).toFixed(2)}
           </p>
         </div>

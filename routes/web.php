@@ -64,7 +64,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('/categories/bulk-delete', [AdminControllerDashboard::class, 'bulkDeleteCategories']);
 
 
-       Route::get('/categories/{category}/products', [AdminCategoryProductsController::class, 'index']);
+       Route::get('/categories/{category}/products', [AdminCategoryProductsController::class, 'index']) ->name('admin.categories.products');
     Route::post('/products', [AdminCategoryProductsController::class, 'store']);
     Route::put('/products/{product}', [AdminCategoryProductsController::class, 'update']);
     Route::delete('/products/{product}', [AdminCategoryProductsController::class, 'destroy']);

@@ -143,18 +143,21 @@ export default function CategoryProducts({ category, products }) {
         ))}
       </div>
 
-      {/* PAGINACIÓN */}
       <div className="mt-8 flex flex-wrap gap-2 justify-center">
-        {products.links.map(link => (
+        {products.links.map((link, index) => (
           <button
-            key={link.label}
+            key={index}
             disabled={!link.url}
-            onClick={() => link.url && router.visit(link.url)}
+            onClick={() => {
+              if (!link.url) return;
+              const url = new URL(link.url);
+              const page = url.searchParams.get('page');
+              router.visit(route('admin.categories.products', { category: category.id, page }));
+            }}
             className={`px-3 py-1 rounded-lg font-semibold transition 
-              ${
-                link.active
-                  ? "bg-pink-600 text-white shadow-lg"
-                  : "bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300"
+        ${link.active
+                ? "bg-pink-600 text-white shadow-lg"
+                : "bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300"
               }`}
           >
             {link.label.replace("&raquo;", "»").replace("&laquo;", "«")}
