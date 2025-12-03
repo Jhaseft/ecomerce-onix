@@ -59,25 +59,46 @@ class PedidosController extends Controller
             ]);
         }
 
-        // WhatsApp
-        try {
-            $mensaje = "📌 *Nuevo pedido realizado*\n";
-            foreach ($orderItems as $item) {
-                $mensaje .= "• {$item->product->name} x {$item->quantity} = Bs. ".number_format($item->subtotal, 2)."\n";
-            }
-            $mensaje .= "💵 Total: Bs. ".number_format($order->total, 2)."\n";
-            $mensaje .= "🔗 Ver detalles en admin: ".url('/admin/login');
+         // Enviar correo al cliente (opcional si tienes mail)
+            // Puedes enviar al phone@gmail.com si quieres simular correo
+            // Mail::to($order->customer_phone.'@temporal.local')->send(new OrderConfirmation($order, $orderItems));
 
-            Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'apikey' => 'TU_APIKEY',
-            ])->post("https://automatizando-evolution-api-last.pk1ooa.easypanel.host/message/sendText/Prueba", [
-                'number' => '59174048209',
-                'text' => $mensaje,
-            ]);
-        } catch (\Exception $e) {
-            Log::error("Error enviando WhatsApp: ".$e->getMessage());
-        }
+            // 🔔 Enviar mensaje WhatsApp al admin con resumen del pedido
+            try {
+                $mensaje = "📌 *Nuevo pedido realizado*\n\n";
+                $mensaje .= "🧑‍💼 Cliente: {$order->customer_name} ({$order->customer_phone})\n";
+                $mensaje .= "📅 Fecha de entrega: {$order->delivery_date} a las {$order->delivery_time}\n";
+                $mensaje .= "🏠 Dirección: {$order->note}\n";
+                $mensaje .= "🛒 Productos:\n";
+
+                foreach ($orderItems as $item) {
+                    $mensaje .= "• {$item->product->name} x {$item->quantity} = Bs. ".number_format($item->subtotal, 2)."\n";
+                }
+
+                $mensaje .= "\n💵 Total: Bs. ".number_format($order->total, 2)."\n";
+                $mensaje .= "🔗 Ver detalles en admin: ".url('/admin/login');
+
+                $server   = "https://automatizando-evolution-api-last.pk1ooa.easypanel.host";
+                $instance = "Prueba";
+                $apikey   = "5D2EA457-D8C8-4B31-AAAE-2126007B9CD9";
+
+                $whatsPayload = [
+                    'number' => '59174048209', // número admin
+                    'text'   => $mensaje,
+                ];
+
+                $response = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'apikey' => $apikey,
+                ])->post("$server/message/sendText/$instance", $whatsPayload);
+
+                if ($response->failed()) {
+                    Log::error(" Error enviando mensaje de pedido al admin: ".$response->body());
+                }
+
+            } catch (\Exception $e) {
+                Log::error(" Excepción enviando mensaje de pedido al admin: ".$e->getMessage());
+            }
 
         // Vaciar carrito
         Cart::destroy();
