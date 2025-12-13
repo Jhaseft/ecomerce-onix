@@ -22,18 +22,17 @@ export default function Layout({ title, auth, children }) {
 
         <Footer />
 
-        {/* Ícono carrito */}
+        
         <div className="fixed bottom-24 right-6 z-[9000]">
           <CartIcon onClick={() => setCartOpen(true)} />
         </div>
 
-        {/* Modal carrito */}
+       
         <CartModal
           isOpen={isCartOpen}
           onClose={() => setCartOpen(false)}
         />
 
-        {/* WhatsApp */}
         <a
           href="https://wa.me/56978843627"
           target="_blank"

@@ -12,7 +12,7 @@ export default function CartIcon({ onClick }) {
       <div
         className="
           bg-darkGray
-          w-14
+          w-12
           h-40
           rounded-l-full
           shadow-xl
@@ -32,8 +32,8 @@ export default function CartIcon({ onClick }) {
           <span
             className="
               absolute
-              -top-3
-              right-2
+              top-12  
+              right-1
               bg-turquoise
               text-darkGray
               text-xs
