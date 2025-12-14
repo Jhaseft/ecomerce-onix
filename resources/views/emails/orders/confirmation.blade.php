@@ -2,7 +2,7 @@
 {{-- Logo --}}
 <img src="{{ asset('https://res.cloudinary.com/dnbklbswg/image/upload/v1765627552/Captura_de_pantalla_2025-12-13_075927-removebg-preview_m4lqsz.png') }}" alt="mora" style="width:150px; margin-bottom:20px;">
 
-# Gracias por comprar en Mora, {{ $order->customer_name }}!
+# Gracias por comprar en Onix, {{ $order->customer_name }}!
 
 A continuación el resumen de tu pedido:
 
