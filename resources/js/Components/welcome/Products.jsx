@@ -98,8 +98,8 @@ export default function Products({ categories: initialCategories = [], search: i
                           tracking-wide
                           pl-3
                           border-l-4
-                          border-white
-                          text-white
+                          border-black
+                          text-black
                           mb-10
                         "
                         style={{ fontFamily: "'Playfair Display', serif" }}
