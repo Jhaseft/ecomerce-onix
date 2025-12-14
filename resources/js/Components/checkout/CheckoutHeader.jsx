@@ -7,31 +7,31 @@ export default function CheckoutHeader() {
             <div>
                 {/* Nombre de la empresa */}
                 <h1
-                    className="text-4xl font-bold text-turquoise"
+                    className="text-4xl font-bold text-black"
                     style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '1px' }}
                 >
-                    MORA
+                    ONIX
                 </h1>
 
                 <h2
                     className="text-3xl font-semibold text-darkGray mt-1"
                     style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '1px' }}
                 >
-                    UNIFORMES
+                    Inmobiliaria
                 </h2>
 
                 <p
                     className="text-sm text-grayCustom mt-2 tracking-widest"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                    Concepcion · Chile
+                    Concepción · Chile
                 </p>
             </div>
 
             {/* Icono de Home */}
             <Link
                 href="/"
-                className="text-turquoise hover:text-darkTurquoise transition-colors"
+                className="text-black hover:text-white transition-colors"
             >
                 <Home size={28} />
             </Link>

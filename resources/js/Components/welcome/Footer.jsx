@@ -3,37 +3,38 @@ import { FaInstagram } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer
-      className="bg-darkGray text-center py-12 mt-10 border-t border-darkTurquoise shadow-inner"
-      
+      className="bg-black text-center py-12 mt-10 border-t border-white shadow-inner"
     >
-    
-      <p className="text-grayCustom font-medium tracking-wide mb-6">
-        © {new Date().getFullYear()} Maro Uniformes — Todos los derechos reservados.
+      {/* Nombre de la empresa y derechos */}
+      <p className="text-white font-medium tracking-wide mb-6">
+        © {new Date().getFullYear()} ONIX Inmobiliaria — Todos los derechos reservados.
       </p>
 
-      
-      <div className="flex justify-center mb-6">
+      {/* Redes sociales */}
+      <div className="flex justify-center mb-6 gap-4">
         <a
-          href="https://www.instagram.com/marouniformes2023"
+          href="https://www.instagram.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-turquoise hover:text-darkTurquoise transition-colors"
+          className="text-white hover:text-gray-300 transition-colors"
         >
           <FaInstagram size={36} />
         </a>
+        {/* Puedes agregar más links aquí, por ejemplo Facebook o LinkedIn */}
       </div> 
- 
-      <div className="text-grayCustom text-sm space-y-3">
-        <p className="text-lg text-turquoise font-semibold">
-           56 978843627
+
+      {/* Información de contacto */}
+      <div className="text-white text-sm space-y-3">
+        <p className="text-lg font-semibold">
+           +56 978843627
         </p>
 
         <p className="text-xs tracking-wide">
           Política de privacidad | Términos de uso
         </p>
 
-        <div className="mt-4 text-grayCustom font-medium">
-          <p className="text-turquoise font-semibold mb-1">CHILE 🇨🇱</p>
+        <div className="mt-4 font-medium">
+          <p className="text-white font-semibold mb-1">Bolivia bl</p>
           <p>Atención personalizada vía WhatsApp e Instagram</p>
         </div>
       </div>

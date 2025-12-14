@@ -19,7 +19,7 @@ export default function MethodPay({ method, setMethod }) {
                         value="transfer"
                         checked={method === "transfer"}
                         readOnly
-                        className="w-5 h-5 text-turquoise accent-turquoise"
+                        className="w-5 h-5 text-black accent-black"
                     />
                     <span className="text-darkGray font-medium">
                         Transferencia Bancaria

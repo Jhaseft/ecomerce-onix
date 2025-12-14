@@ -58,7 +58,7 @@ export default function CheckoutPageContent() {
             messageLines.push(`• ${i.name} | Talla: ${i.size} | SKU: ${i.sku} | Cantidad: ${i.quantity} | Subtotal: $${i.subtotal}`);
         });
 
-        messageLines.push('', `*Total: $${total}*`);
+        messageLines.push('', `*Total: $${total}`);
 
         const whatsappMessage = encodeURIComponent(messageLines.join('\n'));
         const whatsappNumber = "56978843627"; 
@@ -97,7 +97,7 @@ export default function CheckoutPageContent() {
         <Layout title="Checkout">
             <Head title="Checkout" />
 
-            <div className="max-w-3xl mx-auto p-6 bg-white text-grayCustom rounded-2xl shadow-lg border border-gray-200">
+            <div className="max-w-3xl mx-auto p-6 bg-white text-black rounded-2xl shadow-lg border border-black">
                 <CheckoutHeader className="text-turquoise mb-4" />
 
                 <CustomerInfoForm
@@ -107,7 +107,7 @@ export default function CheckoutPageContent() {
                     setCustomerPhone={setCustomerPhone}
                     customerMail={customerMail}
                     setCustomerMail={setCustomerMail}
-                    className="mb-6 bg-darkGray/10 rounded-lg p-4"
+                    className="mb-6 bg-gray-100 rounded-lg p-4"
                 />
 
                 <CartItems cart={cart} loading={loading} subtotal={subtotal} total={total} className="mb-6 bg-turquoise/10 rounded-lg p-4" />
@@ -117,7 +117,7 @@ export default function CheckoutPageContent() {
                 <OrderSummary cart={cart} subtotal={subtotal} total={total} loading={loading} className="mb-6 bg-darkTurquoise/10 rounded-lg p-4" />
 
                 <button
-                    className={`w-full bg-turquoise hover:bg-darkTurquoise text-white font-bold py-3 px-6 rounded-lg shadow-md flex justify-center items-center transition-all duration-300 ${(loading || processing) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`w-full bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg shadow-md flex justify-center items-center transition-all duration-300 ${(loading || processing) ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handlePlaceOrder}
                     disabled={loading || processing}
                 >

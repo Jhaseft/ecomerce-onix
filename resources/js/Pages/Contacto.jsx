@@ -5,24 +5,26 @@ export default function Contacto() {
     return (
         <Layout>
             <div
-                className="bg-white text-center py-10 mt-10 border-t border-grayCustom shadow-inner rounded-2xl"
+                className="bg-white text-center py-10 mt-10 border-t border-black shadow-inner rounded-2xl"
                 style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '1px' }}
             >
                 
-                <h2 className="text-darkGray text-3xl font-bold mb-6">Contacto</h2>
+                <h2 className="text-black text-3xl font-bold mb-6">Contacto</h2>
 
-              
-                <div className="text-darkGray text-lg mb-6 space-y-2">
-                    <p> WhatsApp: <span className="text-turquoise font-semibold">+56 978843627</span></p>
+                <div className="text-black text-lg mb-6 space-y-2">
+                    <p> WhatsApp: 
+                        <span className="text-black font-semibold hover:text-gray-700 transition-colors">
+                            +56 978843627
+                        </span>
+                    </p>
                 </div>
 
-                
                 <div className="flex justify-center space-x-10 mb-6">
                     <a 
-                        href="https://www.instagram.com/marouniformes2023" 
+                        href="https://www.instagram.com/onixinmobiliaria" 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="text-turquoise hover:text-darkTurquoise transition-colors"
+                        className="text-black hover:text-gray-700 transition-colors"
                     >
                         <FaInstagram size={50} />
                     </a>
@@ -30,7 +32,7 @@ export default function Contacto() {
                         href="https://wa.me/56978843627" 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="text-turquoise hover:text-darkTurquoise transition-colors"
+                        className="text-black hover:text-gray-700 transition-colors"
                     >
                         <FaWhatsapp size={50} />
                     </a>

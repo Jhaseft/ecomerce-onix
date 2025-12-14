@@ -1,7 +1,6 @@
 import { Link } from "@inertiajs/react";
 
 export default function ProductCard({ product }) {
-  
   const totalStock =
     product.variants?.reduce((sum, v) => sum + v.stock, 0) || 0;
 
@@ -28,13 +27,12 @@ export default function ProductCard({ product }) {
         hover:scale-105
         hover:shadow-2xl
         ${isOutOfStock
-          ? "border-darkTurquoise opacity-80"
-          : "border-gray-200 hover:border-turquoise"}
+          ? "border-black/50 opacity-80"
+          : "border-black hover:border-black/80"}
       `}
       style={{ fontFamily: "'Playfair Display', serif" }}
     >
-   
-      <div className="w-full aspect-[4/5] p-4 bg-white border-b border-grayCustom/30 rounded-t-3xl overflow-hidden">
+      <div className="w-full aspect-[4/5] p-4 bg-white border-b border-black/30 rounded-t-3xl overflow-hidden">
         <img
           src={imageUrl}
           alt={product.name}
@@ -43,11 +41,10 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="p-5 flex flex-col gap-3">
-        <h3 className="text-xl font-extrabold uppercase tracking-wide text-darkGray">
+        <h3 className="text-xl font-extrabold uppercase tracking-wide text-black">
           {product.name}
         </h3>
 
-        
         <div className="flex flex-wrap gap-2">
           {product.variants?.map(v => (
             <span
@@ -61,8 +58,8 @@ export default function ProductCard({ product }) {
                 border
                 transition
                 ${v.stock === 0
-                  ? "bg-darkGray text-white border-darkGray"
-                  : "bg-white text-darkGray border-turquoise hover:bg-turquoise hover:text-darkGray"}
+                  ? "bg-black/10 text-black border-black/30"
+                  : "bg-black text-white border-black hover:bg-black/80 hover:text-white"}
               `}
             >
               {v.values[0]?.value}
@@ -70,8 +67,7 @@ export default function ProductCard({ product }) {
           ))}
         </div>
 
-        
-        <p className="text-2xl font-extrabold tracking-wide text-turquoise">
+        <p className="text-2xl font-extrabold tracking-wide text-black">
           $ {Number(product.price).toFixed(2)}
         </p>
       </div>

@@ -37,8 +37,8 @@ export default function Products({ categories: initialCategories = [], search: i
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <section className="text-white p-4">
+    <div className="px-4 sm:px-6 lg:px-8 ">
+      <section className="text-white  p-4">
         {categories.map((category, idx) => {
           const filteredProducts = category.products.filter(product =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,31 +49,30 @@ export default function Products({ categories: initialCategories = [], search: i
           return (
             <div key={category.id} className="mb-12">
               {idx !== 0 && (
-                <hr className="border-grayCustom/30 my-12" />
+                <hr className="border-white/30 my-12 " />
               )}
 
-              
-              <div className="relative mb-6">
+              <div className="relative mb-6 ">
                 <h2
                   className="
-                text-4xl
-                md:text-5xl
-                font-bold
-                tracking-[2px]
-                uppercase
-                pl-4
-                py-2
-                border-l-[6px]
-                border-turquoise
-                text-turquoise
-              "
+                    text-4xl
+                    md:text-5xl
+                    font-bold
+                    tracking-[2px]
+                    uppercase
+                    pl-4
+                    py-2
+                    border-l-[6px]
+                    border-black
+                    text-black
+                  "
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   {category.name}
                 </h2>
 
                 {category.description && (
-                  <p className="text-grayCustom mt-2 italic pl-4">
+                  <p className="text-white/80 mt-2 italic pl-4">
                     {category.description}
                   </p>
                 )}
@@ -83,7 +82,6 @@ export default function Products({ categories: initialCategories = [], search: i
                 <CategorySwiper products={filteredProducts} />
               )}
 
-              
               {hasChildren &&
                 category.children.map(sub => {
                   const filteredSubProducts = sub.products.filter(product =>
@@ -94,16 +92,16 @@ export default function Products({ categories: initialCategories = [], search: i
                     <div key={sub.id} className="mt-12">
                       <h3
                         className="
-                      text-2xl
-                      md:text-3xl
-                      font-semibold
-                      tracking-wide
-                      pl-3
-                      border-l-4
-                      border-darkTurquoise
-                      text-grayCustom
-                      mb-10
-                    "
+                          text-2xl
+                          md:text-3xl
+                          font-semibold
+                          tracking-wide
+                          pl-3
+                          border-l-4
+                          border-white
+                          text-white
+                          mb-10
+                        "
                         style={{ fontFamily: "'Playfair Display', serif" }}
                       >
                         {sub.name}
@@ -119,25 +117,24 @@ export default function Products({ categories: initialCategories = [], search: i
           );
         })}
 
-       
         {hasMore && (
           <div className="flex justify-center mt-10">
             <button
               onClick={handleVerMasCategorias}
               disabled={loading}
               className="
-            px-8
-            py-3
-            rounded-xl
-            border
-            border-turquoise
-            text-turquoise
-            font-semibold
-            hover:bg-turquoise
-            hover:text-darkGray
-            transition
-            disabled:opacity-50
-          "
+                px-8
+                py-3
+                rounded-xl
+                border
+                border-white
+                text-white
+                font-semibold
+                hover:bg-white
+                hover:text-black
+                transition
+                disabled:opacity-50
+              "
             >
               {loading ? 'Cargando...' : 'Ver más categorías'}
             </button>
@@ -167,8 +164,8 @@ function CategorySwiper({ products }) {
         1024: { slidesPerView: 3 },
       }}
       style={{
-        '--swiper-navigation-color': '#01a387',
-        '--swiper-pagination-color': '#01a387',
+        '--swiper-navigation-color': '#ffffff',
+        '--swiper-pagination-color': '#ffffff',
       }}
     >
       {products.map(product => {
@@ -190,7 +187,7 @@ function CategorySwiper({ products }) {
               flex
               justify-center
               border
-              ${outOfStock ? 'border-darkTurquoise opacity-80' : 'border-gray-200'}
+              ${outOfStock ? 'border-white/50 opacity-80' : 'border-white/20'}
             `}
           >
             <ProductCard product={product} />

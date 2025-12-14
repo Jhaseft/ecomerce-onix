@@ -28,7 +28,7 @@ export default function CartModal({ isOpen, onClose }) {
     >
       <div
         className={`
-          bg-darkGray
+          bg-black
           w-full
           sm:w-96
           h-full
@@ -47,7 +47,7 @@ export default function CartModal({ isOpen, onClose }) {
       >
         {/* Cerrar */}
         <button
-          className="absolute top-4 right-4 text-grayCustom hover:text-turquoise transition"
+          className="absolute top-4 right-4 text-white hover:text-gray-300 transition"
           onClick={onClose}
         >
           <X size={24} />
@@ -55,12 +55,12 @@ export default function CartModal({ isOpen, onClose }) {
 
         {/* Título */}
         <div className="flex gap-12 items-center mb-4">
-          <h2 className="text-2xl font-bold text-turquoise">Mi Carrito</h2>
+          <h2 className="text-2xl font-bold text-white">Mi Carrito</h2>
 
           {cart.length > 0 && (
             <button
               onClick={clearCart}
-              className="flex items-center text-grayCustom hover:text-red-400 transition"
+              className="flex items-center text-white hover:text-red-400 transition"
             >
               <Trash2 size={18} className="mr-1" />
               Vaciar
@@ -71,14 +71,14 @@ export default function CartModal({ isOpen, onClose }) {
         {/* Lista */}
         <div className="flex-1 overflow-y-auto space-y-4">
           {cart.length === 0 ? (
-            <p className="text-grayCustom text-center mt-10">
+            <p className="text-white text-center mt-10">
               El carrito está vacío
             </p>
           ) : (
             cart.map(item => (
               <div
                 key={item.rowId}
-                className="flex items-center gap-4 p-3 bg-grayCustom/10 rounded-2xl"
+                className="flex items-center gap-4 p-3 bg-white/10 rounded-2xl"
               >
                 <img
                   src={item.options.image || 'https://via.placeholder.com/100'}
@@ -90,13 +90,13 @@ export default function CartModal({ isOpen, onClose }) {
                   <p className="font-semibold truncate">{item.name}</p>
 
                   {item.options.variant && (
-                    <p className="text-sm text-grayCustom">
+                    <p className="text-sm text-white/80">
                       {item.options.variant}
                     </p>
                   )}
 
                   {item.options.sku && (
-                    <p className="text-sm text-grayCustom">
+                    <p className="text-sm text-white/80">
                       {item.options.sku}
                     </p>
                   )}
@@ -105,31 +105,29 @@ export default function CartModal({ isOpen, onClose }) {
                     <button
                       onClick={() => updateQuantity(item.rowId, item.qty - 1)}
                       disabled={item.qty <= 1}
-                      className="p-1 bg-darkTurquoise/40 rounded-l hover:bg-darkTurquoise transition"
+                      className="p-1 bg-white/10 rounded-l hover:bg-white/30 transition"
                     >
-                      <Minus size={16} />
+                      <Minus size={16} className="text-white" />
                     </button>
 
-                    <span className="px-3 font-semibold">
-                      {item.qty}
-                    </span>
+                    <span className="px-3 font-semibold">{item.qty}</span>
 
                     <button
                       onClick={() => updateQuantity(item.rowId, item.qty + 1)}
-                      className="p-1 bg-darkTurquoise/40 rounded-r hover:bg-darkTurquoise transition"
+                      className="p-1 bg-white/10 rounded-r hover:bg-white/30 transition"
                     >
-                      <Plus size={16} />
+                      <Plus size={16} className="text-white" />
                     </button>
                   </div>
                 </div>
 
                 <div className="text-right flex flex-col justify-between h-full">
-                  <p className="font-bold text-turquoise">
+                  <p className="font-bold text-white">
                     $ {(item.price * item.qty).toFixed(2)}
                   </p>
 
                   <button
-                    className="text-grayCustom text-sm mt-1 hover:text-red-400 transition"
+                    className="text-white text-sm mt-1 hover:text-red-400 transition"
                     onClick={() => removeFromCart(item.rowId)}
                   >
                     Eliminar
@@ -142,12 +140,10 @@ export default function CartModal({ isOpen, onClose }) {
 
         {/* Total */}
         {cart.length > 0 && (
-          <div className="mt-4 border-t border-grayCustom/30 pt-4 flex flex-col gap-4">
+          <div className="mt-4 border-t border-white/30 pt-4 flex flex-col gap-4">
             <p className="flex justify-between font-bold text-lg">
               <span>Total:</span>
-              <span className="text-turquoise">
-                $ {total.toFixed(2)}
-              </span>
+              <span className="text-white">$ {total.toFixed(2)}</span>
             </p>
 
             <Link
@@ -157,11 +153,11 @@ export default function CartModal({ isOpen, onClose }) {
                 w-full
                 py-3
                 text-center
-                bg-turquoise
-                text-darkGray
+                bg-white
+                text-black
                 font-bold
                 rounded-xl
-                hover:bg-darkTurquoise
+                hover:bg-white/80
                 transition
               "
             >
